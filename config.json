@@ -1,8 +1,9 @@
 {
-    "username": "TARGET_GITHUB_USERNAME",
-    "inactivity_days": 60,
+    "username": "SunsetMkt",
+    "inactivity_days": 65,
     "payload_path": "payload.enc",
     "output_path": "README.md",
     "one_shot": false,
-    "handle_404": true
+    "handle_404": false
 }
+
