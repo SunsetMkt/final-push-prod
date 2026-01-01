@@ -1,0 +1,53 @@
+name: Run final-push
+
+on:
+    workflow_dispatch:
+    schedule:
+        - cron: "0 12 * * *"
+
+permissions:
+    contents: write
+
+jobs:
+    workflow:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Check out repository
+              uses: actions/checkout@v6
+
+            - name: Set up Python
+              uses: actions/setup-python@v6
+              continue-on-error: true
+              with:
+                  python-version: "3.13"
+                  cache: "pip" # caching pip dependencies
+
+            - name: Install requirements
+              continue-on-error: true
+              run: |
+                  pip install -r requirements.txt
+
+            - name: Run final-push
+              env:
+                  PAYLOAD_KEY: ${{ secrets.PAYLOAD_KEY }}
+              run: |
+                  python main.py
+
+            - name: Upload workspace
+              uses: actions/upload-artifact@v6
+              continue-on-error: true
+              with:
+                  name: workspace
+                  path: .
+                  retention-days: 90
+                  compression-level: 9
+                  include-hidden-files: true
+
+            - name: Commit & Push
+              continue-on-error: true
+              run: |
+                  git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+                  git config user.name "github-actions[bot]"
+                  git add .
+                  git commit -m "ci: $(date '+%Y-%m-%d %H:%M:%S')"
+                  git push

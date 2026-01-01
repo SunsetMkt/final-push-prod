@@ -1,0 +1,8 @@
+{
+    "username": "TARGET_GITHUB_USERNAME",
+    "inactivity_days": 60,
+    "payload_path": "payload.enc",
+    "output_path": "README.md",
+    "one_shot": false,
+    "handle_404": true
+}
